@@ -3,22 +3,18 @@ import time
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-GPIO_TRIGGER_1 = 17
-GPIO_ECHO_1 = 27
-#GPIO_TRIGGER_2 = 14
-#GPIO_ECHO_2 = 15
-#GPIO_TRIGGER_3 = 12
-#GPIO_ECHO_3 = 13
-GPIO_TRIGGER_4 = 5
-GPIO_ECHO_4 = 6
+GPIO_TRIGGER_1 = 27
+GPIO_ECHO_1 = 9
+GPIO_TRIGGER_2 = 22
+GPIO_ECHO_2 = 25
+GPIO_TRIGGER_3 = 10
+GPIO_ECHO_3 = 11
 GPIO.setup(GPIO_TRIGGER_1, GPIO.OUT)
 GPIO.setup(GPIO_ECHO_1, GPIO.IN)
-#GPIO.setup(GPIO_TRIGGER_2, GPIO.OUT)
-#GPIO.setup(GPIO_ECHO_2, GPIO.IN)
-#GPIO.setup(GPIO_TRIGGER_3, GPIO.OUT)
-#GPIO.setup(GPIO_ECHO_3, GPIO.IN)
-GPIO.setup(GPIO_TRIGGER_4, GPIO.OUT)
-GPIO.setup(GPIO_ECHO_4, GPIO.IN)
+GPIO.setup(GPIO_TRIGGER_2, GPIO.OUT)
+GPIO.setup(GPIO_ECHO_2, GPIO.IN)
+GPIO.setup(GPIO_TRIGGER_3, GPIO.OUT)
+GPIO.setup(GPIO_ECHO_3, GPIO.IN)
 
 def read_global_file(file_path):
     with open(file_path, 'r') as file:
@@ -66,10 +62,10 @@ while True:
     try:
 
         dist_1 = get_distance(GPIO_TRIGGER_1, GPIO_ECHO_1)
-        dist_4 = get_distance(GPIO_TRIGGER_4, GPIO_ECHO_4)
+        dist_2 = get_distance(GPIO_TRIGGER_2, GPIO_ECHO_2)
         file_path = '/script/globals.py'
         lines = read_global_file(file_path)
-        updated_lines = update_sensor_values(lines, dist_1, dist_4)
+        updated_lines = update_sensor_values(lines, dist_1, dist_2)
         write_global_file(file_path, updated_lines)
         time.sleep(0.1)
     except Exception as e:
