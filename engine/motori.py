@@ -22,15 +22,13 @@ def set_direction(direction, in1, in2):
 def set_engine_speed(PWM, velocita):
     velocita = max(20, min(100, velocita))
     PWM.ChangeDutyCycle(velocita)
-    #globals.engine_1_speed = velocita
 
 def stop_engine(PWM):
     PWM.ChangeDutyCycle(0)
     
-if __name__ == "__main__":
+try:
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
-    #GPIO.setmode(GPIO.BOARD)
 
     PIN_MOTORE = 18
     in1 = 21
@@ -53,13 +51,8 @@ if __name__ == "__main__":
     PWM_2 = GPIO.PWM(PIN_MOTORE_2, frequenza_pwm)
     PWM.start(0)
     PWM_2.start(0)
-    PWM_2.ChangeDutyCycle(30)
-    PWM.ChangeDutyCycle(30)
-    PWM_2.ChangeDutyCycle(50)
-    PWM.ChangeDutyCycle(50)
-    time.sleep(0.5)
-    PWM_2.ChangeDutyCycle(95)
-    PWM.ChangeDutyCycle(90)
+    PWM_2.ChangeDutyCycle(100)
+    PWM.ChangeDutyCycle(0)
     # direction 1 -> backwards
     # direction -1 -> forwards
     direction = -1
@@ -73,10 +66,9 @@ if __name__ == "__main__":
         GPIO.output(in2, GPIO.HIGH)
         GPIO.output(in3, GPIO.LOW)
         GPIO.output(in4, GPIO.HIGH)
-    time.sleep(10)
-    PWM.ChangeDutyCycle(50)
-    PWM_2.ChangeDutyCycle(50)
     while True:
         time.sleep(2)
-    
-    
+except KeyboardInterrupt:
+    print("Exiting...")
+finally:
+    GPIO.cleanup()
