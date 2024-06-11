@@ -1,21 +1,21 @@
-import RPi.GPIO as GPIO
-import time
+import serial
 
-# Use BCM GPIO references instead of physical pin numbers
-GPIO.setmode(GPIO.BCM)
-
-# Define GPIO to use on Pi
-GPIO_PIN = 15
-
-# Set the GPIO pin as an input
-GPIO.setup(GPIO_PIN, GPIO.IN)
-
+# Open serial port
+ser = serial.Serial(
+    port='/dev/ttyS0',  # Replace with your serial port
+    baudrate=9600,      # Set baud rate to match your device's specifications
+    parity=serial.PARITY_NONE,
+    stopbits=serial.STOPBITS_ONE,
+    bytesize=serial.EIGHTBITS,
+    timeout=1           # Timeout in seconds for blocking read
+)
+print("Reading serial port")
 try:
     while True:
-        # Read the state of the GPIO pin
-        pin_state = GPIO.input(GPIO_PIN)
-        print(f"GPIO 15 state: {pin_state}")
-        time.sleep(1)
+        if ser.in_waiting > 0:  # Check if there is data waiting to be read
+            data = ser.readline().decode('utf-8').rstrip()  # Read the data and decode it
+            print(f"Received: {data}")
 except KeyboardInterrupt:
-    # Clean up the GPIO pins on interrupt
-    GPIO.cleanup()
+    print("Exiting program")
+
+ser.close()

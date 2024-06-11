@@ -31,12 +31,12 @@ try:
     GPIO.setmode(GPIO.BCM)
 
     PIN_MOTORE = 18
-    in1 = 21
-    in2 = 20
+    in1 = 14
+    in2 = 0
 
     PIN_MOTORE_2 = 7
-    in3 = 14
-    in4 = 15
+    in3 = 0
+    in4 = 0
     frequenza_pwm = 1000
 
     GPIO.setup(PIN_MOTORE, GPIO.OUT)
@@ -52,16 +52,16 @@ try:
     PWM.start(0)
     PWM_2.start(0)
     PWM_2.ChangeDutyCycle(100)
-    PWM.ChangeDutyCycle(0)
-    # direction 1 -> backwards
-    # direction -1 -> forwards
+    PWM.ChangeDutyCycle(40)
+    # direction -1 -> backwards
+    # direction 1 -> forwards
     direction = -1
     if direction == 1:
         GPIO.output(in1, GPIO.HIGH)
         GPIO.output(in2, GPIO.LOW)
         GPIO.output(in3, GPIO.HIGH)
         GPIO.output(in4, GPIO.LOW)
-    elif direction == -1:
+    elif direction == 1:
         GPIO.output(in1, GPIO.LOW)
         GPIO.output(in2, GPIO.HIGH)
         GPIO.output(in3, GPIO.LOW)
